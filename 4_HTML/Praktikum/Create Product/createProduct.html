@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-serif bg-gray-100">
+    <header class="text-center py-6">
+        <h1 class="text-3xl font-bold">Create Product</h1>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-16 lg:px-32">
+        <h2 class="text-2xl font-semibold mb-4">Detail Product</h2>
+
+        <form action="#" method="post" class="space-y-4">
+            <div class="form-group">
+                <label for="productname">Product Name :</label>
+                <input type="text" name="productname" id="productname" minlength="6" maxlength="50"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="productcategory">Product Category :</label>
+                <select name="productcategory" id="productcategory"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+                    <option value="Select">Select</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+
+            <fieldset class="field-set form-group">
+                <legend class="font-semibold">Product Freshness :</legend>
+                <input type="radio" name="options" id="option1" value="Brand New" required
+                    class="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="option1">Brand New</label>
+                <br>
+                <input type="radio" name="options" id="option2" value="Second Hank" required
+                    class="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="option2">Second Hank</label>
+                <br>
+                <input type="radio" name="options" id="option3" value="Refurbished" required
+                    class="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="option3">Refurbished</label>
+            </fieldset>
+
+            <div class="form-group">
+                <label for="image">Image of Product</label>
+                <input type="file" name="image" id="image"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="additionaldesc">Additional Description :</label>
+                <textarea name="additionaldesc" id="additionaldesc" cols="50" rows="10"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Product Price :</label>
+                <input type="number" name="price" id="price"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+            </div>
+
+            <button type="submit"
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer">Submit</button>
+        </form>
+    </main>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2023 Gede Dewo Wahyu M.W. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
