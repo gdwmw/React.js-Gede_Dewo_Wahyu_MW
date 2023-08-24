@@ -12,8 +12,8 @@ p {
 
 /* Header */
 header {
-    background-color: #47B2E4;
-    color: white;
+    background-color: white;
+    color: black;
     padding: 8px 30px;
     display: flex;
     align-items: center;
@@ -21,7 +21,7 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: 24px;
     margin-right: auto;
 }
 
@@ -36,20 +36,20 @@ header ul {
 
 header ul li a {
     text-decoration: none;
-    color: white;
-    font-weight: bold;
+    color: #0D6EFD;
+    font-size: 16px;
     padding: 15px 20px;
     border-radius: 5px;
 }
 
 header ul li a.Active {
-    color: #47B2E4;
-    background-color: white;
+    color: white;
+    background-color: #0D6EFD;
 }
 
 header ul li a:hover {
-    color: #47B2E4;
-    background-color: white;
+    color: white;
+    background-color: #0D6EFD;
 }
 
 /* Hero Section */
@@ -59,7 +59,7 @@ header ul li a:hover {
     align-items: center;
     gap: 50px;
     padding: 150px 30px 200px 30px;
-    background: linear-gradient(to bottom, #47B2E4, #FFFFFF);
+    background: linear-gradient(to top, #37517E, #001F3F);
 }
 
 .Hero-Section h1 {
@@ -88,18 +88,21 @@ header ul li a:hover {
     text-decoration: none;
     color: white;
     font-style: bold;
+    font-size: 16px;
 }
 
 .Hero-Section div:last-child a:first-child {
     padding: 13px 25px;
     background-color: #47B2E4;
     border-radius: 50px;
+    font-size: 16px;
 }
 
 .Hero-Section div:last-child a:first-child:hover {
     padding: 13px 25px;
     background-color: #3692bd;
     border-radius: 50px;
+    font-size: 16px;
 }
 
 .Hero-Section div:last-child a:last-child:hover {
@@ -110,17 +113,18 @@ header ul li a:hover {
 .Newsletter-Section {
     text-align: center;
     padding: 100px 30px;
-    background-color: white;
+    background-color: #F3F5FA;
 }
 
 .Newsletter-Section h2 {
-    font-size: 36px;
+    font-size: 24px;
     margin-bottom: 20px;
+    color: #37517E;
 }
 
 .Newsletter-Section p {
-    font-size: 18px;
-    color: #888;
+    font-size: 15px;
+    color: #444444;
     margin-bottom: 40px;
 }
 
@@ -137,16 +141,14 @@ header ul li a:hover {
     border-radius: 50px;
     width: 700px;
     font-size: 16px;
-    background-color: #ececec;
+    background-color: white;
     outline: none;
-}
-
-.Newsletter-Section input[type="email"]::placeholder {
-    color: rgb(141, 141, 141);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
 }
 
 .NewsletterButton {
     display: inline-block;
+    font-size: 16px;
     margin-left: -50px;
     padding: 13px 25px;
     background-color: #47B2E4;
@@ -154,6 +156,7 @@ header ul li a:hover {
     text-decoration: none;
     border-radius: 50px;
     font-size: 16px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
 }
 
 .NewsletterButton:hover {
@@ -163,7 +166,6 @@ header ul li a:hover {
 /* Footer */
 footer {
     background-color: white;
-    padding: 40px 30px;
 }
 
 .Footer-Content {
@@ -171,16 +173,18 @@ footer {
     justify-content: space-around;
     align-items: flex-start;
     flex-wrap: wrap;
+    padding: 40px 30px;
 }
 
-.Footer-Content h2,
 .Footer-Content h4 {
-    color: #3692bd;
-    font-size: 24px;
+    color: #37517E;
+    font-size: 16px;
     margin-bottom: 5px;
 }
 
-.Fourth-Section h4 {
+.Footer-Content h2 {
+    color: #37517E;
+    font-size: 28px;
     margin-bottom: 5px;
 }
 
@@ -198,7 +202,7 @@ footer {
 }
 
 .Footer-Content li {
-    margin: 8px 0px;
+    margin: 15px 0px;
 }
 
 .Footer-Content a {
@@ -214,25 +218,30 @@ footer {
 .Circle-Group {
     display: flex;
     justify-content: space-between;
-    width: 100px;
+    width: 200px;
     margin-top: 20px;
 }
 
 .Circle {
-    width: 20px;
-    height: 20px;
-    background-color: #3692bd;
-    border-radius: 50%;
-}
-
-.Circle-Blue {
+    width: 36px;
+    height: 36px;
     background-color: #47B2E4;
+    border-radius: 50%;
 }
 
 /* Copyright */
 .Copyright {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 12px;
-    color: #777;
+    display: flex;
+    background-color: #37517E;
+    padding: 30px 30px;
+    font-size: 14px;
+    color: white;
+}
+
+.Copyright p:first-child {
+    margin-right: auto;
+}
+
+.Copyright p span {
+    color: #47B2E4;
 }

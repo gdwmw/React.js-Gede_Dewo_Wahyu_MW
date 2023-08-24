@@ -1,0 +1,234 @@
+/* Global Reset */
+body,
+h1,
+h2,
+h3,
+h4,
+p {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+header {
+    background-color: #47B2E4;
+    color: white;
+    padding: 8px 30px;
+    display: flex;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+    margin-right: auto;
+}
+
+header ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+header ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 15px 20px;
+    border-radius: 5px;
+}
+
+header ul li a.Active {
+    color: #47B2E4;
+    background-color: white;
+}
+
+header ul li a:hover {
+    color: #47B2E4;
+    background-color: white;
+}
+
+/* Hero Section */
+.Hero-Section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 150px 30px 200px 30px;
+    background: linear-gradient(to bottom, #47B2E4, #FFFFFF);
+}
+
+.Hero-Section h1 {
+    font-size: 48px;
+    color: white;
+}
+
+.Hero-Section p {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.800);
+}
+
+.Hero-Section img {
+    width: 600px;
+    height: 600px;
+}
+
+.Hero-Section div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 65px;
+    margin: 50px 0;
+}
+
+.Hero-Section div:last-child a {
+    text-decoration: none;
+    color: white;
+    font-style: bold;
+}
+
+.Hero-Section div:last-child a:first-child {
+    padding: 13px 25px;
+    background-color: #47B2E4;
+    border-radius: 50px;
+}
+
+.Hero-Section div:last-child a:first-child:hover {
+    padding: 13px 25px;
+    background-color: #3692bd;
+    border-radius: 50px;
+}
+
+.Hero-Section div:last-child a:last-child:hover {
+    color: #47B2E4;
+}
+
+/* Newsletter Section */
+.Newsletter-Section {
+    text-align: center;
+    padding: 100px 30px;
+    background-color: white;
+}
+
+.Newsletter-Section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.Newsletter-Section p {
+    font-size: 18px;
+    color: #888;
+    margin-bottom: 40px;
+}
+
+.Newsletter-Section form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.Newsletter-Section input[type="email"] {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    width: 700px;
+    font-size: 16px;
+    background-color: #ececec;
+    outline: none;
+}
+
+.Newsletter-Section input[type="email"]::placeholder {
+    color: rgb(141, 141, 141);
+}
+
+.NewsletterButton {
+    display: inline-block;
+    margin-left: -50px;
+    padding: 13px 25px;
+    background-color: #47B2E4;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 16px;
+}
+
+.NewsletterButton:hover {
+    background-color: #3692bd;
+}
+
+/* Footer */
+footer {
+    background-color: white;
+    padding: 40px 30px;
+}
+
+.Footer-Content {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.Footer-Content h2,
+.Footer-Content h4 {
+    color: #3692bd;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.Footer-Content p,
+.Footer-Content ul {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.5;
+}
+
+.Footer-Content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Footer-Content li {
+    margin: 8px 0px;
+}
+
+.Footer-Content a {
+    text-decoration: none;
+    color: #777;
+}
+
+.Footer-Content a:hover {
+    color: #3692bd;
+}
+
+/* Circle Group */
+.Circle-Group {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    margin-top: 20px;
+}
+
+.Circle {
+    width: 20px;
+    height: 20px;
+    background-color: #3692bd;
+    border-radius: 50%;
+}
+
+.Circle-Blue {
+    background-color: #47B2E4;
+}
+
+/* Copyright */
+.Copyright {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 12px;
+    color: #777;
+}
