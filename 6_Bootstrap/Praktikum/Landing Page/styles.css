@@ -1,0 +1,247 @@
+/* Global Reset */
+body,
+h1,
+h2,
+h3,
+h4,
+p {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+/* header {
+    background-color: white;
+    color: black;
+    padding: 8px 30px;
+    display: flex;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: auto;
+}
+
+header ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+header ul li a {
+    text-decoration: none;
+    color: #0D6EFD;
+    font-size: 16px;
+    padding: 15px 20px;
+    border-radius: 5px;
+}
+
+header ul li a.Active {
+    color: white;
+    background-color: #0D6EFD;
+}
+
+header ul li a:hover {
+    color: white;
+    background-color: #0D6EFD;
+} */
+
+/* Hero Section */
+.Hero-Section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 150px 30px 200px 30px;
+    background: linear-gradient(to top, #37517E, #001F3F);
+}
+
+.Hero-Section h1 {
+    font-size: 48px;
+    color: white;
+}
+
+.Hero-Section p {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.800);
+}
+
+.Hero-Section img {
+    width: 600px;
+    height: 600px;
+}
+
+.Hero-Section div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 65px;
+    margin: 50px 0;
+}
+
+.Hero-Section div:last-child a {
+    text-decoration: none;
+    color: white;
+    font-style: bold;
+    font-size: 16px;
+}
+
+.Hero-Section div:last-child a:first-child {
+    padding: 13px 25px;
+    background-color: #47B2E4;
+    border-radius: 50px;
+    font-size: 16px;
+}
+
+.Hero-Section div:last-child a:first-child:hover {
+    padding: 13px 25px;
+    background-color: #3692bd;
+    border-radius: 50px;
+    font-size: 16px;
+}
+
+.Hero-Section div:last-child a:last-child:hover {
+    color: #47B2E4;
+}
+
+/* Newsletter Section */
+.Newsletter-Section {
+    text-align: center;
+    padding: 100px 30px;
+    background-color: #F3F5FA;
+}
+
+.Newsletter-Section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #37517E;
+}
+
+.Newsletter-Section p {
+    font-size: 15px;
+    color: #444444;
+    margin-bottom: 40px;
+}
+
+.Newsletter-Section form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.Newsletter-Section input[type="email"] {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    width: 700px;
+    font-size: 16px;
+    background-color: white;
+    outline: none;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.NewsletterButton {
+    display: inline-block;
+    font-size: 16px;
+    margin-left: -50px;
+    padding: 13px 25px;
+    background-color: #47B2E4;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 16px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.NewsletterButton:hover {
+    background-color: #3692bd;
+}
+
+/* Footer */
+footer {
+    background-color: white;
+}
+
+.Footer-Content {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 40px 30px;
+}
+
+.Footer-Content h4 {
+    color: #37517E;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.Footer-Content h2 {
+    color: #37517E;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.Footer-Content p,
+.Footer-Content ul {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.5;
+}
+
+.Footer-Content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Footer-Content li {
+    margin: 15px 0px;
+}
+
+.Footer-Content a {
+    text-decoration: none;
+    color: #777;
+}
+
+.Footer-Content a:hover {
+    color: #3692bd;
+}
+
+/* Circle Group */
+.Circle-Group {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    margin-top: 20px;
+}
+
+.Circle {
+    width: 36px;
+    height: 36px;
+    background-color: #47B2E4;
+    border-radius: 50%;
+}
+
+/* Copyright */
+.Copyright {
+    display: flex;
+    background-color: #37517E;
+    padding: 30px 30px;
+    font-size: 14px;
+    color: white;
+}
+
+.Copyright p:first-child {
+    margin-right: auto;
+}
+
+.Copyright p span {
+    color: #47B2E4;
+}

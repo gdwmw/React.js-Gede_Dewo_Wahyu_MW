@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+    <header class="text-center py-5 mb-2">
+        <img src="./Bootstrap-Logo.svg" alt="logo" class="w-100 mx-auto mb-3" style="max-width: 100px;">
+        <h1 class="display-4 fw-bold">Create Product</h1>
+        <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form
+            group has a validation state that can be triggered by attempting to submit the form without completing it.
+        </p>
+    </header>
+
+    <main class="container px-4 md:px-5 lg:px-8">
+        <h2 class="h3 fw-semibold mb-4">Detail Product</h2>
+
+        <form action="#" method="post" class="needs-validation" novalidate>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="productname" class="form-label">Product Name :</label>
+                    <input type="text" name="productname" id="productname" minlength="6" maxlength="50"
+                        class="form-control" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid product name.
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="productcategory" class="form-label">Product Category :</label>
+                    <select name="productcategory" id="productcategory" class="form-select" required>
+                        <option value="Select">Select</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a product category.
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="mb-3">
+                <legend class="fw-semibold">Product Freshness :</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="options" id="option1" value="Brand New" required
+                        checked>
+                    <label class="form-check-label" for="option1">
+                        Brand New
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="options" id="option2" value="Second Hank"
+                        required>
+                    <label class="form-check-label" for="option2">
+                        Second Hank
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="options" id="option3" value="Refurbished"
+                        required>
+                    <label class="form-check-label" for="option3">
+                        Refurbished
+                    </label>
+                </div>
+            </fieldset>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image of Product</label>
+                <input type="file" name="image" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="additionaldesc" class="form-label">Additional Description :</label>
+                <textarea name="additionaldesc" id="additionaldesc" cols="50" rows="10" class="form-control"
+                    required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Product Price :</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" name="price" placeholder="0.00"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <div class="alert alert-danger mt-3" role="alert" style="display: none;">
+            Please fill out all required fields correctly.
+        </div>
+    </main>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2023 Gede Dewo Wahyu M.W. All rights reserved.</p>
+    </footer>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Success!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your product has been successfully created.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                        document.querySelector('.alert').style.display = 'block';
+                    } else {
+                        document.querySelector('.alert').style.display = 'none';
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+
+</html>
