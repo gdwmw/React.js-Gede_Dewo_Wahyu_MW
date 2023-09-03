@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="font-serif bg-gray-100">
+    <header class="text-center py-6">
+        <h1 class="text-3xl font-bold">Create Product</h1>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-16 lg:px-32">
+        <h2 class="text-2xl font-semibold mb-4">Detail Product</h2>
+
+        <form action="#" method="post" class="space-y-4">
+            <div class="form-group">
+                <label for="productname">Product Name :</label>
+                <input type="text" name="productname" id="productname"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="form-group">
+                <label for="productcategory">Product Category :</label>
+                <select name="productcategory" id="productcategory"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Select">Select</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
+
+            <fieldset class="field-set form-group">
+                <legend class="font-semibold">Product Freshness :</legend>
+                <input type="radio" name="options" id="option1" value="Brand New"
+                    class="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="option1">Brand New</label>
+                <br>
+                <input type="radio" name="options" id="option2" value="Second Hank"
+                    class="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="option2">Second Hank</label>
+                <br>
+                <input type="radio" name="options" id="option3" value="Refurbished"
+                    class="mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <label for="option3">Refurbished</label>
+            </fieldset>
+
+            <div class="form-group">
+                <label for="image">Image of Product</label>
+                <input type="file" name="image" id="image"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="form-group">
+                <label for="additionaldesc">Additional Description :</label>
+                <textarea name="additionaldesc" id="additionaldesc" cols="50" rows="10"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Product Price :</label>
+                <input type="number" name="price" id="price"
+                    class="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            </div>
+
+            <button type="submit"
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer">Submit</button>
+        </form>
+
+        <div class="overflow-x-auto mt-5">
+            <table class="min-w-full table-auto bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-gray-400 text-white">
+                    <tr>
+                        <th class="py-2 px-4">Product Name</th>
+                        <th class="py-2 px-4">Product Category</th>
+                        <th class="py-2 px-4">Product Freshness</th>
+                        <th class="py-2 px-4">Product Price</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTable">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 space-x-2">
+            <button id="deleteButton"
+                class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Delete</button>
+            <input type="text" id="searchInput"
+                class="w-64 px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Search by Product Name">
+            <button id="searchButton"
+                class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer">Search</button>
+        </div>
+    </main>
+
+    <footer class="text-center py-4">
+        <p>&copy; 2023 Gede Dewo Wahyu M.W. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+            const dataTable = document.getElementById("dataTable");
+            const deleteButton = document.getElementById("deleteButton");
+            const searchInput = document.getElementById("searchInput");
+            const searchButton = document.getElementById("searchButton");
+
+            const data = []; // Array untuk menyimpan data yang telah dimasukkan
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Mencegah pengiriman formulir
+
+                const formFields = form.querySelectorAll("input, select, textarea");
+                const rowData = {}; // Objek untuk menyimpan data yang akan dimasukkan ke dalam tabel
+
+                formFields.forEach(function (field) {
+                    rowData[field.name] = field.value; // Simpan data ke dalam objek rowData
+                });
+
+                // Jika tidak ada kesalahan, tambahkan data ke dalam tabel dan array data
+                data.push(rowData);
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td class="px-4 py-2">${rowData.productname}</td>
+                    <td class="px-4 py-2">${rowData.productcategory}</td>
+                    <td class="px-4 py-2">${rowData.options}</td>
+                    <td class="px-4 py-2">${rowData.price}</td>
+                `;
+                dataTable.appendChild(row);
+
+                // Kosongkan value input sebelumnya
+                formFields.forEach(function (field) {
+                    field.value = "";
+                });
+            });
+
+            // Tombol Delete
+            deleteButton.addEventListener("click", function () {
+                if (data.length > 0) {
+                    data.pop(); // Hapus data terakhir dari array data
+                    dataTable.deleteRow(dataTable.rows.length - 1); // Hapus baris terakhir dari tabel
+                }
+            });
+
+            // Tombol Search
+            searchButton.addEventListener("click", function () {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm === "") {
+                    alert("Please enter a search term.");
+                    return;
+                }
+
+                const foundData = data.filter(function (item) {
+                    return item.productname.toLowerCase().includes(searchTerm.toLowerCase());
+                });
+
+                if (foundData.length > 0) {
+                    // Tampilkan hasil pencarian dalam alert
+                    let alertMessage = "Search Results:\n";
+                    foundData.forEach(function (item) {
+                        alertMessage += `Product Name: ${item.productname}\n`;
+                        alertMessage += `Product Category: ${item.productcategory}\n`;
+                        alertMessage += `Product Freshness: ${item.options}\n`;
+                        alertMessage += `Product Price: ${item.price}\n\n`;
+                    });
+                    alert(alertMessage);
+                } else {
+                    alert("No matching data found.");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
