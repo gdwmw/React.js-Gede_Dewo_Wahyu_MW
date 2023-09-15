@@ -285,13 +285,14 @@ export default function Main({ languageProps }) {
           <div className="form-group">
             <label htmlFor="price">{languageProps === "inggris" ? contentLanguage.input6.en : contentLanguage.input6.id}</label>
             <input
-              type="number"
+              type="text"
               name="price"
               id="price"
               onClick={() => setRandomNumberTernary(true)}
               onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ""))}
               value={randomNumber}
               className={`${inputFieldStyle.base} ${randomNumberTernary && randomNumber === "" ? inputFieldStyle.error : ""}`}
+             disabled
             />
           </div>
           <p
