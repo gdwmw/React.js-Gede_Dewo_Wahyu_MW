@@ -100,8 +100,6 @@ export default function Main({ languageProps }) {
             type="text"
             name="productname"
             id="productname"
-            minLength="6"
-            maxLength="50"
             onClick={() => setProductNameTernary(true)}
             onChange={(e) => setProductName(e.target.value)}
             value={productName}
