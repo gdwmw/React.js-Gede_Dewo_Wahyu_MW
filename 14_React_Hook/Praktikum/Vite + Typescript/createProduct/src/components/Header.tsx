@@ -1,11 +1,12 @@
+import { ReactNode } from "react";
 import tailwindImage from "../images/Tailwind.svg";
 
 type HeaderProps = {
   languageProps: string;
-  languageChangeButtonProps: any;
+  languageChangeButtonProps: ReactNode;
 };
 
-export default function Header(props: HeaderProps) {
+export default function Header({ languageProps, languageChangeButtonProps }: HeaderProps) {
   const contentLanguage = {
     title: {
       en: "Create Product",
@@ -18,10 +19,10 @@ export default function Header(props: HeaderProps) {
   };
   return (
     <header className="container mx-auto px-5 py-6 text-center">
-      <img src={tailwindImage} width={150} height={"auto"} alt="Tailwind" className="mx-auto mb-5 mt-1" />
-      <h1 className="text-3xl font-bold">{props.languageProps == "inggris" ? contentLanguage.title.en : contentLanguage.title.id}</h1>
-      <p>{props.languageProps == "inggris" ? contentLanguage.description.en : contentLanguage.description.id}</p>
-      {props.languageChangeButtonProps}
+      <img src={tailwindImage} width={150} height={0} alt="Tailwind" className="h-auto mx-auto mb-5 mt-1" />
+      <h1 className="text-3xl font-bold">{languageProps == "inggris" ? contentLanguage.title.en : contentLanguage.title.id}</h1>
+      <p>{languageProps == "inggris" ? contentLanguage.description.en : contentLanguage.description.id}</p>
+      {languageChangeButtonProps}
     </header>
   );
 }

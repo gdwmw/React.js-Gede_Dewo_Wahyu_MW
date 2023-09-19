@@ -4,7 +4,7 @@ interface ProductData {
   productName: string;
   productCategory: string;
   productFreshness: string;
-  productImage: File | null;
+  productImage: string | null;
   additionalDescription: string;
   randomNumber: number | undefined;
 }
@@ -13,7 +13,7 @@ type MainProps = {
   languageProps: string;
 };
 
-export default function Main(props: MainProps) {
+export default function Main({ languageProps }: MainProps) {
   const contentLanguage = {
     title: {
       en: "Detail Product",
@@ -103,7 +103,7 @@ export default function Main(props: MainProps) {
   const [productCategoryTernary, setProductCategoryBoolean] = useState<boolean>(false);
   const [productFreshness, setProductFreshness] = useState<string>("");
   const [productFreshnessBoolean, setProductFreshnessBoolean] = useState<boolean>(false);
-  const [productImage, setProductImage] = useState<File | null>(null);
+  const [productImage, setProductImage] = useState<string | null>(null);
   const [productImageBoolean, setProductImageBoolean] = useState<boolean>(false);
   const [additionalDescription, setAdditionalDescription] = useState<string>("");
   const [additionalDescriptionTernary, setAdditionalDescriptionBoolean] = useState<boolean>(false);
@@ -112,7 +112,7 @@ export default function Main(props: MainProps) {
   const [productData, setProductData] = useState<ProductData[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
       productName.length >= 6 &&
@@ -147,13 +147,22 @@ export default function Main(props: MainProps) {
     console.log("Random Number:", random);
   };
 
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setProductImage(file);
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setProductImage(result);
+      };
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleDelete = (index: number) => {
-    const shouldDelete = window.confirm(props.languageProps === "inggris" ? contentLanguage.table.alert.en : contentLanguage.table.alert.id);
+    const shouldDelete = window.confirm(languageProps === "inggris" ? contentLanguage.table.alert.en : contentLanguage.table.alert.id);
     if (shouldDelete) {
       const updatedProductData = [...productData];
       updatedProductData.splice(index, 1);
@@ -178,12 +187,12 @@ export default function Main(props: MainProps) {
 
   return (
     <main className="container mx-auto px-4 md:px-16 lg:px-32">
-      <h2 className="mb-4 text-2xl font-semibold">{props.languageProps === "inggris" ? contentLanguage.title.en : contentLanguage.title.id}</h2>
+      <h2 className="mb-4 text-2xl font-semibold">{languageProps === "inggris" ? contentLanguage.title.en : contentLanguage.title.id}</h2>
       <section>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Product Name */}
           <div className="form-group">
-            <label htmlFor="productname">{props.languageProps === "inggris" ? contentLanguage.input1.en : contentLanguage.input1.id}</label>
+            <label htmlFor="productname">{languageProps === "inggris" ? contentLanguage.input1.en : contentLanguage.input1.id}</label>
             <input
               type="text"
               name="productname"
@@ -202,15 +211,15 @@ export default function Main(props: MainProps) {
               display: productNameTernary && productName.length < 6 ? "block" : "none",
             }}
           >
-            {props.languageProps === "inggris" ? contentLanguage.warning1.en : contentLanguage.warning1.id}
+            {languageProps === "inggris" ? contentLanguage.warning1.en : contentLanguage.warning1.id}
           </p>
           <p className={`${redText}`} style={{ display: productName.length > 25 ? "block" : "none" }}>
-            {props.languageProps === "inggris" ? contentLanguage.warning2.en : contentLanguage.warning2.id}
+            {languageProps === "inggris" ? contentLanguage.warning2.en : contentLanguage.warning2.id}
           </p>
 
           {/* Product Category */}
           <div className="form-group">
-            <label htmlFor="productcategory">{props.languageProps === "inggris" ? contentLanguage.input2.en : contentLanguage.input2.id}</label>
+            <label htmlFor="productcategory">{languageProps === "inggris" ? contentLanguage.input2.en : contentLanguage.input2.id}</label>
             <select
               name="productcategory"
               id="productcategory"
@@ -219,7 +228,7 @@ export default function Main(props: MainProps) {
               value={productCategory}
               className={`${inputFieldStyle.base} ${productCategoryTernary && productCategory === "" ? inputFieldStyle.error : ""}`}
             >
-              <option value="">{props.languageProps === "inggris" ? contentLanguage.input2.option.en : contentLanguage.input2.option.id}</option>
+              <option value="">{languageProps === "inggris" ? contentLanguage.input2.option.en : contentLanguage.input2.option.id}</option>
               <option value="A">A</option>
               <option value="B">B</option>
               <option value="C">C</option>
@@ -232,7 +241,7 @@ export default function Main(props: MainProps) {
               display: productCategoryTernary && productCategory === "" ? "block" : "none",
             }}
           >
-            {props.languageProps === "inggris" ? contentLanguage.warning3.en : contentLanguage.warning3.id}
+            {languageProps === "inggris" ? contentLanguage.warning3.en : contentLanguage.warning3.id}
           </p>
 
           {/* Product Freshness */}
@@ -241,8 +250,8 @@ export default function Main(props: MainProps) {
               productFreshnessBoolean && productFreshness === "" ? inputFieldStyle.error : ""
             }`}
           >
-            <legend className="font-semibold">{props.languageProps === "inggris" ? contentLanguage.input3.en : contentLanguage.input3.id}</legend>
-            {props.languageProps === "inggris"
+            <legend className="font-semibold">{languageProps === "inggris" ? contentLanguage.input3.en : contentLanguage.input3.id}</legend>
+            {languageProps === "inggris"
               ? contentLanguage.input3.option.en.map((option, index) => (
                   <div key={index}>
                     <input
@@ -278,17 +287,17 @@ export default function Main(props: MainProps) {
               display: productCategoryTernary && productCategory === "" ? "block" : "none",
             }}
           >
-            {props.languageProps === "inggris" ? contentLanguage.warning3.en : contentLanguage.warning3.id}
+            {languageProps === "inggris" ? contentLanguage.warning3.en : contentLanguage.warning3.id}
           </p>
 
           {/* Image of Product */}
           <div className="form-group">
-            <label htmlFor="image">{props.languageProps === "inggris" ? contentLanguage.input4.en : contentLanguage.input4.id}</label>
+            <label htmlFor="image">{languageProps === "inggris" ? contentLanguage.input4.en : contentLanguage.input4.id}</label>
             <input
               type="file"
+              accept="image/*"
               name="image"
               id="image"
-              onClick={() => setProductImageBoolean(true)}
               onChange={handleImageChange}
               className={`${inputFieldStyle.base} ${productImageBoolean && productImage === null ? inputFieldStyle.error : ""}`}
             />
@@ -296,15 +305,15 @@ export default function Main(props: MainProps) {
           <p
             className={`${redText}`}
             style={{
-              display: randomNumberTernary && randomNumber === 0 ? "block" : "none",
+              display: productImageBoolean && productImage === null ? "block" : "none",
             }}
           >
-            {props.languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
+            {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
           </p>
 
           {/* Additional Description */}
           <div className="form-group">
-            <label htmlFor="additionaldesc">{props.languageProps === "inggris" ? contentLanguage.input5.en : contentLanguage.input5.id}</label>
+            <label htmlFor="additionaldesc">{languageProps === "inggris" ? contentLanguage.input5.en : contentLanguage.input5.id}</label>
             <textarea
               name="additionaldesc"
               id="additionaldesc"
@@ -322,12 +331,12 @@ export default function Main(props: MainProps) {
               display: additionalDescriptionTernary && additionalDescription === "" ? "block" : "none",
             }}
           >
-            {props.languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
+            {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
           </p>
 
           {/* Product Price */}
           <div className="form-group">
-            <label htmlFor="price">{props.languageProps === "inggris" ? contentLanguage.input6.en : contentLanguage.input6.id}</label>
+            <label htmlFor="price">{languageProps === "inggris" ? contentLanguage.input6.en : contentLanguage.input6.id}</label>
             <input
               type="text"
               name="price"
@@ -344,17 +353,17 @@ export default function Main(props: MainProps) {
               display: randomNumberTernary && randomNumber === undefined ? "block" : "none",
             }}
           >
-            {props.languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
+            {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
           </p>
 
           {/* Buttons */}
           <div className="flex items-center gap-5">
             <button type="button" className={`${buttonStyle.secondary}`} onClick={generateRandomNumber}>
-              {props.languageProps === "inggris" ? contentLanguage.button1.en : contentLanguage.button1.id}
+              {languageProps === "inggris" ? contentLanguage.button1.en : contentLanguage.button1.id}
             </button>
 
             <button type="submit" className={`${buttonStyle.primary}`}>
-              {props.languageProps === "inggris" ? contentLanguage.button2.en : contentLanguage.button2.id}
+              {languageProps === "inggris" ? contentLanguage.button2.en : contentLanguage.button2.id}
             </button>
           </div>
         </form>
@@ -363,7 +372,7 @@ export default function Main(props: MainProps) {
       {/* Search */}
       <section className="mt-5">
         <label htmlFor="searchusername" className="mb-1 block">
-          {props.languageProps === "inggris" ? contentLanguage.search.en : contentLanguage.search.id}
+          {languageProps === "inggris" ? contentLanguage.search.en : contentLanguage.search.id}
         </label>
         <input
           type="text"
@@ -378,23 +387,23 @@ export default function Main(props: MainProps) {
       {/* Table */}
       <section className="mt-5 overflow-scroll">
         <label htmlFor="productlist" className="mb-1 block">
-          {props.languageProps === "inggris" ? contentLanguage.table.en : contentLanguage.table.id}
+          {languageProps === "inggris" ? contentLanguage.table.en : contentLanguage.table.id}
         </label>
         <table className="w-full border-collapse rounded border-2">
           <thead>
             <tr>
               <th className="border-2 px-2">No/UUID</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[0] : contentLanguage.table.th.id[0]}</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[1] : contentLanguage.table.th.id[1]}</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[2] : contentLanguage.table.th.id[2]}</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[3] : contentLanguage.table.th.id[3]}</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[4] : contentLanguage.table.th.id[4]}</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[5] : contentLanguage.table.th.id[5]}</th>
-              <th className="border-2 px-2">{props.languageProps === "inggris" ? contentLanguage.table.th.en[6] : contentLanguage.table.th.id[6]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[0] : contentLanguage.table.th.id[0]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[1] : contentLanguage.table.th.id[1]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[2] : contentLanguage.table.th.id[2]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[3] : contentLanguage.table.th.id[3]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[4] : contentLanguage.table.th.id[4]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[5] : contentLanguage.table.th.id[5]}</th>
+              <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[6] : contentLanguage.table.th.id[6]}</th>
             </tr>
           </thead>
           <tbody className="text-center">
-            {filteredProductData.map((data: ProductData, index) => (
+            {filteredProductData.map((data, index) => (
               <tr key={index}>
                 <td className="border-2 px-2 py-2">{`0${index + 1}`}</td>
                 <td className="border-2 px-2 py-2">{data.productName}</td>
@@ -402,13 +411,7 @@ export default function Main(props: MainProps) {
                 <td className="border-2 px-2 py-2">{data.productFreshness}</td>
                 <td className="border-2 px-2 py-2">
                   {data.productImage ? (
-                    <img
-                      src={URL.createObjectURL(data.productImage)}
-                      alt="Product"
-                      width={100}
-                      height={0}
-                      style={{ height: "auto", margin: "0px auto 0px auto" }}
-                    />
+                    <img src={data.productImage} alt="Product" width={100} height={0} style={{ height: "auto", margin: "0px auto 0px auto" }} />
                   ) : (
                     ""
                   )}
@@ -417,7 +420,7 @@ export default function Main(props: MainProps) {
                 <td className="border-2 px-2 py-2">{data.randomNumber}</td>
                 <td className="border-2 px-2 py-2">
                   <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(index)}>
-                    {props.languageProps === "inggris" ? contentLanguage.table.button.en : contentLanguage.table.button.id}
+                    {languageProps === "inggris" ? contentLanguage.table.button.en : contentLanguage.table.button.id}
                   </button>
                 </td>
               </tr>
