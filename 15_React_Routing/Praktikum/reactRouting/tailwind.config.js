@@ -2,7 +2,14 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        tailwindGreen: "#11cdb6",
+        tailwindGreenSecondary: "#0eab98",
+        tailwindBlue: "#1ea3bc",
+        tailwindBlueSecondary: "#07859d",
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

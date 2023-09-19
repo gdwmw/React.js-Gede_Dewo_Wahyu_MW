@@ -27,9 +27,6 @@ export default function CreateProduct() {
   const [language, setLanguage] = useState<string>("inggris");
   return (
     <>
-      <head>
-        <title>Create Product</title>
-      </head>
       {welcome}
       <Header
         languageProps={language}

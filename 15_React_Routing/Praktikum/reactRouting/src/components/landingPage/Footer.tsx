@@ -3,7 +3,7 @@ export default function Footer() {
     <footer id="Contact" className="bg-white px-10 py-8">
       <div className="flex justify-between">
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-[#47B2E4]">ARSHA</h2>
+          <h2 className="text-tailwindGreen text-2xl font-bold">ARSHA</h2>
           <ul>
             <li>
               <p>A108 Adam Street</p>
@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
 
         <div className="space-y-4">
-          <h4 className="text-xl font-bold text-[#47B2E4]">Useful Links</h4>
+          <h4 className="text-tailwindGreen text-xl font-bold">Useful Links</h4>
           <ul className="text-gray-600">
             <li>
               <p>Home</p>
@@ -49,7 +49,7 @@ export default function Footer() {
         </div>
 
         <div className="space-y-4">
-          <h4 className="text-xl font-bold text-[#47B2E4]">Our Service</h4>
+          <h4 className="text-tailwindGreen text-xl font-bold">Our Service</h4>
           <ul className="text-gray-600">
             <li>
               <p>Web Design</p>
@@ -70,16 +70,16 @@ export default function Footer() {
         </div>
 
         <div className="space-y-4">
-          <h4 className="text-xl font-bold text-[#47B2E4]">Our Social Networks</h4>
+          <h4 className="text-tailwindGreen text-xl font-bold">Our Social Networks</h4>
           <p className="text-gray-600">
             Cras fermentum odio eu feugiat lide par
             <br /> naso tierra videa magna derita valies
           </p>
           <div className="flex space-x-4">
-            <div className="h-6 w-6 rounded-full bg-[#3692bd]"></div>
-            <div className="h-6 w-6 rounded-full bg-[#3692bd]"></div>
-            <div className="h-6 w-6 rounded-full bg-[#3692bd]"></div>
-            <div className="h-6 w-6 rounded-full bg-[#47B2E4]"></div>
+            <div className="bg-tailwindGreenSecondary h-6 w-6 rounded-full"></div>
+            <div className="bg-tailwindGreenSecondary h-6 w-6 rounded-full"></div>
+            <div className="bg-tailwindGreenSecondary h-6 w-6 rounded-full"></div>
+            <div className="bg-tailwindGreen h-6 w-6 rounded-full"></div>
           </div>
         </div>
       </div>

@@ -5,9 +5,6 @@ import Footer from "../components/landingPage/Footer";
 export default function LandingPage() {
   return (
     <>
-      <head>
-        <title>Landing Page</title>
-      </head>
       <Header />
       <Main />
       <Footer />
