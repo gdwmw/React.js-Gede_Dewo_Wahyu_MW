@@ -1,8 +1,8 @@
-import landingImages from '../../images/Landing.png'
-import { useNavigate } from 'react-router-dom'
+import landingImages from "../../images/Landing.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Main() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <main>
       <section id="Home" className="bg-gradient-to-b from-[#47B2E4] to-white py-48 ">
@@ -16,7 +16,7 @@ export default function Main() {
               <button
                 type="button"
                 onClick={() => {
-                  navigate('/createproduct')
+                  navigate("/createproduct");
                 }}
                 className="rounded-full bg-[#47B2E4] px-6 py-3 font-bold text-white hover:bg-[#3692bd]"
               >
@@ -60,5 +60,5 @@ export default function Main() {
         </div>
       </section>
     </main>
-  )
+  );
 }

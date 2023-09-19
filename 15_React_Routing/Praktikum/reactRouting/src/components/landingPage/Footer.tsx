@@ -88,5 +88,5 @@ export default function Footer() {
         <p className="text-gray-600">&copy; 2023 Gede Dewo Wahyu M.W. All rights reserved.</p>
       </section>
     </footer>
-  )
+  );
 }
