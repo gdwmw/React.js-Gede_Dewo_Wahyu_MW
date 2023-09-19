@@ -392,7 +392,7 @@ export default function Main({ languageProps }: MainProps) {
         <table className="w-full border-collapse rounded border-2">
           <thead>
             <tr>
-              <th className="border-2 px-2">No/UUID</th>
+              <th className="border-2 px-2">No</th>
               <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[0] : contentLanguage.table.th.id[0]}</th>
               <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[1] : contentLanguage.table.th.id[1]}</th>
               <th className="border-2 px-2">{languageProps === "inggris" ? contentLanguage.table.th.en[2] : contentLanguage.table.th.id[2]}</th>
