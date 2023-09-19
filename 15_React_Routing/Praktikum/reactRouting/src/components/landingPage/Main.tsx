@@ -5,8 +5,8 @@ export default function Main() {
   const navigate = useNavigate();
   return (
     <main>
-      <section id="Home" className="from-tailwindGreen bg-gradient-to-b to-white py-48 ">
-        <div className="container mx-auto grid grid-cols-2 px-10">
+      <section id="Home" className="bg-gradient-to-b from-tailwindGreen to-white pb-56 pt-40 md:py-48 ">
+        <div className="container mx-auto px-10 md:grid md:grid-cols-2">
           <div className="my-auto space-y-10">
             <div className="space-y-4 text-white">
               <h1 className="text-5xl font-bold">Better Solution For Your Business</h1>
@@ -18,7 +18,7 @@ export default function Main() {
                 onClick={() => {
                   navigate("/createproduct");
                 }}
-                className="bg-tailwindBlue hover:bg-tailwindBlueSecondary rounded-full px-6 py-3 font-bold text-white"
+                className="rounded-full bg-tailwindBlue px-6 py-3 font-bold text-white hover:bg-tailwindBlueSecondary"
               >
                 Get Started
               </button>
@@ -26,33 +26,37 @@ export default function Main() {
                 href="https://www.youtube.com/watch?v=4OQmtrYtkPg"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-tailwindBlue text-white"
+                className="text-white hover:text-tailwindBlue"
               >
                 Watch Video
               </a>
             </div>
           </div>
-          <img src={tailwindImages} alt="image" width={500} height={500} className="ml-auto drop-shadow-xl" />
+          <img
+            src={tailwindImages}
+            alt="image"
+            className="my-auto ml-auto hidden h-auto drop-shadow-xl md:block md:w-[300px] lg:w-[350px] xl:w-[450px]"
+          />
         </div>
       </section>
 
       <section id="Newsletter" className="bg-white py-36">
         <div className="container mx-auto space-y-10 px-10 text-center">
           <div className="space-y-4">
-            <h2 className="text-tailwindBlue text-4xl font-bold">Join Our Newsletter</h2>
+            <h2 className="text-4xl font-bold text-tailwindBlue">Join Our Newsletter</h2>
             <p className="text-gray-600">Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
           </div>
-          <form action="#" method="post" className="flex items-center justify-center gap-x-4">
+          <form action="#" method="post" className="flex flex-col items-center justify-center gap-y-3 sm:flex-row sm:gap-x-4">
             <input
               type="email"
               name="email"
               id="email"
               placeholder="Enter your email"
-              className="focus:border-tailwindBlue w-[700px] rounded-full border-2 border-gray-300 px-4 py-2.5 outline-none"
+              className="w-full rounded-full border-2 border-gray-300 px-4 py-2.5 outline-none focus:border-tailwindBlue sm:w-[700px]"
             />
             <a
               href="/4_HTML/Praktikum/Create Account/createAccount.html"
-              className="bg-tailwindBlue hover:bg-tailwindBlueSecondary rounded-full px-6 py-3 font-bold text-white"
+              className="inline-block rounded-full bg-tailwindBlue px-6 py-3 font-bold text-white hover:bg-tailwindBlueSecondary"
             >
               Subscribe
             </a>

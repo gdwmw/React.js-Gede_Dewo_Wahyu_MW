@@ -1,9 +1,9 @@
 export default function Footer() {
   return (
-    <footer id="Contact" className="bg-white px-10 py-8">
-      <div className="flex justify-between">
-        <div className="space-y-4">
-          <h2 className="text-tailwindGreen text-2xl font-bold">ARSHA</h2>
+    <footer id="Contact" className="bg-white px-10 pb-8 pt-5 sm:pb-8 sm:pt-8">
+      <div className="space-y-8 sm:grid sm:grid-cols-2 sm:gap-5 sm:space-y-0 lg:flex lg:justify-between">
+        <div className="space-y-4 text-center sm:text-left">
+          <h2 className="text-2xl font-bold text-tailwindGreen">ARSHA</h2>
           <ul>
             <li>
               <p>A108 Adam Street</p>
@@ -27,8 +27,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="space-y-4">
-          <h4 className="text-tailwindGreen text-xl font-bold">Useful Links</h4>
+        <div className="space-y-4 text-center sm:text-left">
+          <h4 className="text-xl font-bold text-tailwindGreen">Useful Links</h4>
           <ul className="text-gray-600">
             <li>
               <p>Home</p>
@@ -48,8 +48,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="space-y-4">
-          <h4 className="text-tailwindGreen text-xl font-bold">Our Service</h4>
+        <div className="space-y-4 text-center sm:text-left">
+          <h4 className="text-xl font-bold text-tailwindGreen">Our Service</h4>
           <ul className="text-gray-600">
             <li>
               <p>Web Design</p>
@@ -69,17 +69,17 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="space-y-4">
-          <h4 className="text-tailwindGreen text-xl font-bold">Our Social Networks</h4>
+        <div className="space-y-4 text-center sm:text-left">
+          <h4 className="text-xl font-bold text-tailwindGreen">Our Social Networks</h4>
           <p className="text-gray-600">
             Cras fermentum odio eu feugiat lide par
             <br /> naso tierra videa magna derita valies
           </p>
-          <div className="flex space-x-4">
-            <div className="bg-tailwindGreenSecondary h-6 w-6 rounded-full"></div>
-            <div className="bg-tailwindGreenSecondary h-6 w-6 rounded-full"></div>
-            <div className="bg-tailwindGreenSecondary h-6 w-6 rounded-full"></div>
-            <div className="bg-tailwindGreen h-6 w-6 rounded-full"></div>
+          <div className="flex justify-center space-x-4 sm:justify-start">
+            <div className="h-6 w-6 rounded-full bg-tailwindGreenSecondary"></div>
+            <div className="h-6 w-6 rounded-full bg-tailwindGreenSecondary"></div>
+            <div className="h-6 w-6 rounded-full bg-tailwindGreenSecondary"></div>
+            <div className="h-6 w-6 rounded-full bg-tailwindGreen"></div>
           </div>
         </div>
       </div>
