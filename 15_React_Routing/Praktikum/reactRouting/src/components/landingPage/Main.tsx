@@ -5,7 +5,7 @@ export default function Main() {
   const navigate = useNavigate();
   return (
     <main>
-      <section id="Home" className="bg-gradient-to-b from-tailwindGreen to-white pb-56 pt-40 md:py-48 ">
+      <section id="Home" className="bg-gradient-to-b from-tailwindGreen to-white pb-56 pt-40 md:pt-48 ">
         <div className="container mx-auto px-10 md:grid md:grid-cols-2">
           <div className="my-auto space-y-10">
             <div className="space-y-4 text-white">
@@ -16,7 +16,7 @@ export default function Main() {
               <button
                 type="button"
                 onClick={() => {
-                  navigate("/createproduct");
+                  navigate("/login");
                 }}
                 className="rounded-full bg-tailwindBlue px-6 py-3 font-bold text-white hover:bg-tailwindBlueSecondary"
               >
@@ -54,12 +54,9 @@ export default function Main() {
               placeholder="Enter your email"
               className="w-full rounded-full border-2 border-gray-300 px-4 py-2.5 outline-none focus:border-tailwindBlue sm:w-[700px]"
             />
-            <a
-              href="/4_HTML/Praktikum/Create Account/createAccount.html"
-              className="inline-block rounded-full bg-tailwindBlue px-6 py-3 font-bold text-white hover:bg-tailwindBlueSecondary"
-            >
+            <button type="button" className="inline-block rounded-full bg-tailwindBlue px-6 py-3 font-bold text-white hover:bg-tailwindBlueSecondary">
               Subscribe
-            </a>
+            </button>
           </form>
         </div>
       </section>
