@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 interface ProductData {
   productName: string;
   productCategory: string;
@@ -82,7 +82,11 @@ export default function Main({ languageProps }: MainProps) {
         en: ["Product Name", "Category", "Freshness", "Image", "Additional Description", "Price", "Action"],
         id: ["Nama Produk", "Kategori", "Kesegaran", "Gambar", "Deskripsi Tambahan", "Harga", "Aksi"],
       },
-      button: {
+      button1: {
+        en: "Detail",
+        id: "Detail",
+      },
+      button2: {
         en: "Delete",
         id: "Hapus",
       },
@@ -147,6 +151,13 @@ export default function Main({ languageProps }: MainProps) {
     console.log("Random Number:", random);
   };
 
+  const navigate = useNavigate();
+
+  const handleDetailClick = (index: number) => {
+    const selectedProduct = productData[index];
+    navigate(`/detail/${index}`, { state: { selectedProduct } });
+  };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -180,9 +191,9 @@ export default function Main({ languageProps }: MainProps) {
   const redText = "text-red-400";
 
   const buttonStyle = {
-    primary: "cursor-pointer rounded bg-tailwindBlue px-4 py-2 text-white hover:bg-tailwindBlueSecondary",
-    secondary: "cursor-pointer rounded bg-tailwindGreen px-4 py-2 text-white hover:bg-tailwindGreenSecondary",
-    delete: "mx-auto my-2 bg-red-400 block text-white px-4 py-2 rounded hover:bg-red-500",
+    primary: "rounded bg-tailwindBlue px-4 py-2 text-white hover:bg-tailwindBlueSecondary",
+    secondary: "rounded bg-tailwindGreen px-4 py-2 text-white hover:bg-tailwindGreenSecondary",
+    delete: "rounded bg-red-400 px-4 py-2 text-white hover:bg-red-500",
   };
 
   return (
@@ -408,17 +419,17 @@ export default function Main({ languageProps }: MainProps) {
                 <td className="border-2 px-2 py-2">{data.productCategory}</td>
                 <td className="border-2 px-2 py-2">{data.productFreshness}</td>
                 <td className="border-2 px-2 py-2">
-                  {data.productImage ? (
-                    <img src={data.productImage} alt="Product" width={100} height={0} style={{ height: "auto", margin: "0px auto 0px auto" }} />
-                  ) : (
-                    ""
-                  )}
+                  {data.productImage ? <img src={data.productImage} alt="Product" width={100} height={0} className="mx-auto h-auto" /> : ""}
                 </td>
                 <td className="border-2 px-2 py-2">{data.additionalDescription}</td>
                 <td className="border-2 px-2 py-2">{data.randomNumber}</td>
-                <td className="border-2 px-2 py-2">
+                <td className="space-y-2 border-2 px-2 py-2">
+                  <button className={`${buttonStyle.secondary}`} onClick={() => handleDetailClick(index)}>
+                    {languageProps === "inggris" ? contentLanguage.table.button1.en : contentLanguage.table.button1.id}
+                  </button>
+
                   <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(index)}>
-                    {languageProps === "inggris" ? contentLanguage.table.button.en : contentLanguage.table.button.id}
+                    {languageProps === "inggris" ? contentLanguage.table.button2.en : contentLanguage.table.button2.id}
                   </button>
                 </td>
               </tr>
