@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { fetchProductDataID } from "../utils/fetchProductDataID";
 
 interface ProductData {
-  id: number; // Tambahkan properti id
+  id: number;
   productName: string;
   productCategory: string;
   productFreshness: string;
@@ -31,7 +31,6 @@ export default function ProductDetail() {
   }, [id]);
 
   if (!selectedProduct) {
-    // You can return a loading indicator here if needed
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <p className="text-3xl font-semibold">Loading...</p>

@@ -5,7 +5,7 @@ import { postProductData } from "../../utils/postProductData";
 import { useNavigate } from "react-router-dom";
 
 interface ProductData {
-  id: number; // Tambahkan properti id
+  id: number;
   productName: string;
   productCategory: string;
   productFreshness: string;
@@ -163,12 +163,9 @@ export default function Main({ languageProps }: MainProps) {
         randomNumber,
       };
 
-      // Kirim data ke API
       const response = await postProductData(newProductData);
-      // Tambahkan data baru yang diterima dari API ke daftar produk
       setProductData([...productData, response]);
 
-      // Me-reload halaman saat ini
       setProductName("---");
       setProductCategory("");
       setAdditionalDescription("---");
@@ -180,7 +177,6 @@ export default function Main({ languageProps }: MainProps) {
       setAdditionalDescriptionBoolean(false);
       setRandomNumberBoolean(false);
     } else {
-      // Set state untuk menampilkan pesan kesalahan
       setProductNameBoolean(true);
       setProductCategoryBoolean(true);
       setProductFreshnessBoolean(true);
@@ -204,18 +200,15 @@ export default function Main({ languageProps }: MainProps) {
     await deleteProductData(id);
   };
 
-  // Fungsi untuk menangani penghapusan data
   const handleDelete = (id: number) => {
     const shouldDelete = window.confirm(languageProps === "inggris" ? contentLanguage.table.alert.en : contentLanguage.table.alert.id);
     if (shouldDelete) {
-      // Hapus data dari daftar produk dan kirim permintaan DELETE ke API
       const updatedProductData = [...productData];
       const deletedIndex = updatedProductData.findIndex((item) => item.id === id);
       if (deletedIndex !== -1) {
         updatedProductData.splice(deletedIndex, 1);
         setProductData(updatedProductData);
 
-        // Panggil fungsi untuk menghapus data dari API
         deleteProduct(id);
       }
     }
