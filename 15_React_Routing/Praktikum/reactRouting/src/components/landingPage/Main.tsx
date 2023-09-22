@@ -1,5 +1,5 @@
-import tailwindImages from "../../images/Tailwind.svg";
 import { useNavigate } from "react-router-dom";
+import tailwindImages from "../../images/Tailwind.svg";
 
 export default function Main() {
   const navigate = useNavigate();

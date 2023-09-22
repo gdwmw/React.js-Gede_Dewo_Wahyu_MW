@@ -1,12 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { fetchProductData } from "../../utils/fetchProductData";
+import { deleteProductData } from "../../utils/deleteProductData";
+import { postProductData } from "../../utils/postProductData";
+
 interface ProductData {
+  id: number; // Tambahkan properti id
   productName: string;
   productCategory: string;
   productFreshness: string;
   productImage: string | null;
   additionalDescription: string;
-  randomNumber: number | undefined;
+  randomNumber: number;
 }
 
 type MainProps = {
@@ -101,6 +105,7 @@ export default function Main({ languageProps }: MainProps) {
     },
   };
 
+  let id: number = 0;
   const [productName, setProductName] = useState<string>("");
   const [productNameBoolean, setProductNameBoolean] = useState<boolean>(false);
   const [productCategory, setProductCategory] = useState<string>("");
@@ -111,52 +116,10 @@ export default function Main({ languageProps }: MainProps) {
   const [productImageBoolean, setProductImageBoolean] = useState<boolean>(false);
   const [additionalDescription, setAdditionalDescription] = useState<string>("");
   const [additionalDescriptionBoolean, setAdditionalDescriptionBoolean] = useState<boolean>(false);
-  const [randomNumber, setRandomNumber] = useState<number | undefined>(undefined);
+  const [randomNumber, setRandomNumber] = useState<number>(0);
   const [randomNumberBoolean, setRandomNumberBoolean] = useState<boolean>(false);
   const [productData, setProductData] = useState<ProductData[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (
-      productName.length >= 6 &&
-      productCategory !== "" &&
-      productFreshness !== "" &&
-      productImage !== null &&
-      additionalDescription !== "" &&
-      randomNumber !== 0
-    ) {
-      const newProductData: ProductData = {
-        productName,
-        productCategory,
-        productFreshness,
-        productImage,
-        additionalDescription,
-        randomNumber,
-      };
-      setProductData([...productData, newProductData]);
-    } else {
-      setProductNameBoolean(true);
-      setProductCategoryBoolean(true);
-      setAdditionalDescriptionBoolean(true);
-      setRandomNumberBoolean(true);
-      setProductFreshnessBoolean(true);
-      setProductImageBoolean(true);
-    }
-  };
-
-  const generateRandomNumber = () => {
-    const random: number = Math.floor(Math.random() * 1000);
-    setRandomNumber(random);
-    console.log("Random Number:", random);
-  };
-
-  const navigate = useNavigate();
-
-  const handleDetailClick = (index: number) => {
-    const selectedProduct = productData[index];
-    navigate(`/detail/${index}`, { state: { selectedProduct } });
-  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -172,16 +135,90 @@ export default function Main({ languageProps }: MainProps) {
     }
   };
 
-  const handleDelete = (index: number) => {
-    const shouldDelete = window.confirm(languageProps === "inggris" ? contentLanguage.table.alert.en : contentLanguage.table.alert.id);
-    if (shouldDelete) {
-      const updatedProductData = [...productData];
-      updatedProductData.splice(index, 1);
-      setProductData(updatedProductData);
+  const generateRandomNumber = () => {
+    const random: number = Math.floor(Math.random() * 1000);
+    setRandomNumber(random);
+    console.log("Random Number:", random);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (
+      productName.length >= 6 &&
+      productCategory !== "" &&
+      productFreshness !== "" &&
+      productImage !== null &&
+      additionalDescription !== "" &&
+      randomNumber !== 0
+    ) {
+      id++;
+      const newProductData: ProductData = {
+        id,
+        productName,
+        productCategory,
+        productFreshness,
+        productImage,
+        additionalDescription,
+        randomNumber,
+      };
+
+      // Kirim data ke API
+      const response = await postProductData(newProductData);
+      // Tambahkan data baru yang diterima dari API ke daftar produk
+      setProductData([...productData, response]);
+
+      // Me-reload halaman saat ini
+      setProductName("---");
+      setProductCategory("");
+      setAdditionalDescription("---");
+      setRandomNumber(0);
+      setProductNameBoolean(false);
+      setProductCategoryBoolean(false);
+      setProductFreshnessBoolean(false);
+      setProductImageBoolean(false);
+      setAdditionalDescriptionBoolean(false);
+      setRandomNumberBoolean(false);
+    } else {
+      // Set state untuk menampilkan pesan kesalahan
+      setProductNameBoolean(true);
+      setProductCategoryBoolean(true);
+      setProductFreshnessBoolean(true);
+      setProductImageBoolean(true);
+      setAdditionalDescriptionBoolean(true);
+      setRandomNumberBoolean(true);
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchProductData();
+      setProductData(response);
+    };
+    fetchData();
+  }, []);
+
   const filteredProductData = productData.filter((data) => data.productName.toLowerCase().includes(searchValue.toLowerCase()));
+
+  const deleteProduct = async (id: number) => {
+    await deleteProductData(id);
+  };
+
+  // Fungsi untuk menangani penghapusan data
+  const handleDelete = (id: number) => {
+    const shouldDelete = window.confirm(languageProps === "inggris" ? contentLanguage.table.alert.en : contentLanguage.table.alert.id);
+    if (shouldDelete) {
+      // Hapus data dari daftar produk dan kirim permintaan DELETE ke API
+      const updatedProductData = [...productData];
+      const deletedIndex = updatedProductData.findIndex((item) => item.id === id);
+      if (deletedIndex !== -1) {
+        updatedProductData.splice(deletedIndex, 1);
+        setProductData(updatedProductData);
+
+        // Panggil fungsi untuk menghapus data dari API
+        deleteProduct(id);
+      }
+    }
+  };
 
   const inputFieldStyle = {
     base: "w-full rounded border-2 border-gray-200 px-4 py-2 outline-none focus:border-tailwindBlue",
@@ -352,14 +389,14 @@ export default function Main({ languageProps }: MainProps) {
               id="price"
               onClick={() => setRandomNumberBoolean(true)}
               value={randomNumber}
-              className={`${randomNumberBoolean && randomNumber === undefined ? inputFieldStyle.error : inputFieldStyle.base}`}
+              className={`${randomNumberBoolean && randomNumber === 0 ? inputFieldStyle.error : inputFieldStyle.base}`}
               disabled
             />
           </div>
           <p
             className={`${redText}`}
             style={{
-              display: randomNumberBoolean && randomNumber === undefined ? "block" : "none",
+              display: randomNumberBoolean && randomNumber === 0 ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
@@ -419,16 +456,12 @@ export default function Main({ languageProps }: MainProps) {
                 <td className="border-2 px-2 py-2">{data.productCategory}</td>
                 <td className="border-2 px-2 py-2">{data.productFreshness}</td>
                 <td className="border-2 px-2 py-2">
-                  {data.productImage ? <img src={data.productImage} alt="Product" width={100} height={0} className="mx-auto h-auto" /> : ""}
+                  {data.productImage ? <img src={data.productImage} alt="Product Image" width={100} height={0} className="mx-auto h-auto" /> : ""}
                 </td>
                 <td className="border-2 px-2 py-2">{data.additionalDescription}</td>
                 <td className="border-2 px-2 py-2">{data.randomNumber}</td>
                 <td className="space-y-2 border-2 px-2 py-2">
-                  <button className={`${buttonStyle.secondary}`} onClick={() => handleDetailClick(index)}>
-                    {languageProps === "inggris" ? contentLanguage.table.button1.en : contentLanguage.table.button1.id}
-                  </button>
-
-                  <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(index)}>
+                  <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(data.id)}>
                     {languageProps === "inggris" ? contentLanguage.table.button2.en : contentLanguage.table.button2.id}
                   </button>
                 </td>
