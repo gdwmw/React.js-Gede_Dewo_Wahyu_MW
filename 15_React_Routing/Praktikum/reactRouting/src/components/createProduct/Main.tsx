@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchProductData } from "../../utils/fetchProductData";
 import { deleteProductData } from "../../utils/deleteProductData";
 import { postProductData } from "../../utils/postProductData";
+import { useNavigate } from "react-router-dom";
 
 interface ProductData {
   id: number; // Tambahkan properti id
@@ -219,6 +220,8 @@ export default function Main({ languageProps }: MainProps) {
       }
     }
   };
+
+  const navigate = useNavigate();
 
   const inputFieldStyle = {
     base: "w-full rounded border-2 border-gray-200 px-4 py-2 outline-none focus:border-tailwindBlue",
@@ -460,10 +463,16 @@ export default function Main({ languageProps }: MainProps) {
                 </td>
                 <td className="border-2 px-2 py-2">{data.additionalDescription}</td>
                 <td className="border-2 px-2 py-2">{data.randomNumber}</td>
-                <td className="space-y-2 border-2 px-2 py-2">
-                  <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(data.id)}>
-                    {languageProps === "inggris" ? contentLanguage.table.button2.en : contentLanguage.table.button2.id}
-                  </button>
+                <td className="border-2 px-2 py-2">
+                  <div className="flex items-center justify-center gap-2">
+                    <button className={`${buttonStyle.secondary}`} onClick={() => navigate(`/productdetail/${index + 1}`)}>
+                      {languageProps === "inggris" ? contentLanguage.table.button1.en : contentLanguage.table.button1.id}
+                    </button>
+
+                    <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(data.id)}>
+                      {languageProps === "inggris" ? contentLanguage.table.button2.en : contentLanguage.table.button2.id}
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
