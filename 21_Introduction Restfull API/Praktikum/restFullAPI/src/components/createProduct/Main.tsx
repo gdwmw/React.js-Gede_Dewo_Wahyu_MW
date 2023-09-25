@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchProductData } from "../../utils/fetchProductData";
 import { deleteProductData } from "../../utils/deleteProductData";
 import { postProductData } from "../../utils/postProductData";
+import { putProductData } from "../../utils/putProductData";
 import { useNavigate } from "react-router-dom";
 
 interface ProductData {
@@ -106,21 +107,39 @@ export default function Main({ languageProps }: MainProps) {
     },
   };
 
-  let id: number = 0;
-  const [productName, setProductName] = useState<string>("");
+  // let id: number = 0;
+  // const [productName, setProductName] = useState<string>("");
   const [productNameBoolean, setProductNameBoolean] = useState<boolean>(false);
-  const [productCategory, setProductCategory] = useState<string>("");
+  // const [productCategory, setProductCategory] = useState<string>("");
   const [productCategoryBoolean, setProductCategoryBoolean] = useState<boolean>(false);
-  const [productFreshness, setProductFreshness] = useState<string>("");
+  // const [productFreshness, setProductFreshness] = useState<string>("");
   const [productFreshnessBoolean, setProductFreshnessBoolean] = useState<boolean>(false);
-  const [productImage, setProductImage] = useState<string | null>(null);
+  // const [productImage, setProductImage] = useState<string | null>(null);
   const [productImageBoolean, setProductImageBoolean] = useState<boolean>(false);
-  const [additionalDescription, setAdditionalDescription] = useState<string>("");
+  // const [additionalDescription, setAdditionalDescription] = useState<string>("");
   const [additionalDescriptionBoolean, setAdditionalDescriptionBoolean] = useState<boolean>(false);
-  const [randomNumber, setRandomNumber] = useState<number>(0);
+  // const [randomNumber, setRandomNumber] = useState<number>(0);
   const [randomNumberBoolean, setRandomNumberBoolean] = useState<boolean>(false);
+  const [data, setData] = useState<ProductData>({
+    id: 0,
+    productName: "",
+    productCategory: "",
+    productFreshness: "",
+    productImage: null,
+    additionalDescription: "",
+    randomNumber: 0,
+  });
   const [productData, setProductData] = useState<ProductData[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  const onChangeData = (e: any) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -129,7 +148,10 @@ export default function Main({ languageProps }: MainProps) {
 
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        setProductImage(result);
+        setData({
+          ...data,
+          productImage: result,
+        });
       };
 
       reader.readAsDataURL(file);
@@ -138,38 +160,59 @@ export default function Main({ languageProps }: MainProps) {
 
   const generateRandomNumber = () => {
     const random: number = Math.floor(Math.random() * 1000);
-    setRandomNumber(random);
+    setData({ ...data, randomNumber: random });
     console.log("Random Number:", random);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      productName.length >= 6 &&
-      productCategory !== "" &&
-      productFreshness !== "" &&
-      productImage !== null &&
-      additionalDescription !== "" &&
-      randomNumber !== 0
+    if (editMode) {
+      const editedData = productData.map((item) => (item.id === data.id ? data : item));
+      await putProductData(data);
+      setProductData(editedData);
+      setEditMode(false);
+
+      setData({
+        id: 0,
+        productName: "---",
+        productCategory: "",
+        productFreshness: "",
+        productImage: null,
+        additionalDescription: "---",
+        randomNumber: 0,
+      });
+
+      setProductNameBoolean(false);
+      setProductCategoryBoolean(false);
+      setProductFreshnessBoolean(false);
+      setProductImageBoolean(false);
+      setAdditionalDescriptionBoolean(false);
+      setRandomNumberBoolean(false);
+    } else if (
+      data.productName.length >= 6 &&
+      data.productName.length <= 25 &&
+      data.productCategory !== "" &&
+      data.productFreshness !== "" &&
+      data.productImage !== null &&
+      data.additionalDescription !== "" &&
+      data.randomNumber !== 0
     ) {
-      id++;
-      const newProductData: ProductData = {
-        id,
-        productName,
-        productCategory,
-        productFreshness,
-        productImage,
-        additionalDescription,
-        randomNumber,
-      };
+      data.id++;
+      const newProductData: ProductData = { ...data };
 
       const response = await postProductData(newProductData);
       setProductData([...productData, response]);
 
-      setProductName("---");
-      setProductCategory("");
-      setAdditionalDescription("---");
-      setRandomNumber(0);
+      setData({
+        id: 0,
+        productName: "---",
+        productCategory: "",
+        productFreshness: "",
+        productImage: null,
+        additionalDescription: "---",
+        randomNumber: 0,
+      });
+
       setProductNameBoolean(false);
       setProductCategoryBoolean(false);
       setProductFreshnessBoolean(false);
@@ -196,21 +239,20 @@ export default function Main({ languageProps }: MainProps) {
 
   const filteredProductData = productData.filter((data) => data.productName.toLowerCase().includes(searchValue.toLowerCase()));
 
-  const deleteProduct = async (id: number) => {
-    await deleteProductData(id);
+  const handleEdit = (id: number) => {
+    const editData = productData.find((item) => item.id === id);
+    if (editData) {
+      setData(editData);
+      setEditMode(true);
+    }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     const shouldDelete = window.confirm(languageProps === "inggris" ? contentLanguage.table.alert.en : contentLanguage.table.alert.id);
     if (shouldDelete) {
-      const updatedProductData = [...productData];
-      const deletedIndex = updatedProductData.findIndex((item) => item.id === id);
-      if (deletedIndex !== -1) {
-        updatedProductData.splice(deletedIndex, 1);
-        setProductData(updatedProductData);
-
-        deleteProduct(id);
-      }
+      await deleteProductData(id);
+      const deleteData = productData.filter((item) => item.id !== id);
+      setProductData(deleteData);
     }
   };
 
@@ -236,41 +278,41 @@ export default function Main({ languageProps }: MainProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Product Name */}
           <div className="form-group">
-            <label htmlFor="productname">{languageProps === "inggris" ? contentLanguage.input1.en : contentLanguage.input1.id}</label>
+            <label htmlFor="productName">{languageProps === "inggris" ? contentLanguage.input1.en : contentLanguage.input1.id}</label>
             <input
               type="text"
-              name="productname"
-              id="productname"
+              name="productName"
+              id="productName"
               onClick={() => setProductNameBoolean(true)}
-              onChange={(e) => setProductName(e.target.value)}
-              value={productName}
+              onChange={onChangeData}
+              value={data.productName}
               className={`${
-                productNameBoolean && (productName.length < 6 || productName.length > 25) ? inputFieldStyle.error : inputFieldStyle.base
+                productNameBoolean && (data.productName.length < 6 || data.productName.length > 25) ? inputFieldStyle.error : inputFieldStyle.base
               }`}
             />
           </div>
           <p
             className={`${redText}`}
             style={{
-              display: productNameBoolean && productName.length < 6 ? "block" : "none",
+              display: productNameBoolean && data.productName.length < 6 ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning1.en : contentLanguage.warning1.id}
           </p>
-          <p className={`${redText}`} style={{ display: productName.length > 25 ? "block" : "none" }}>
+          <p className={`${redText}`} style={{ display: data.productName.length > 25 ? "block" : "none" }}>
             {languageProps === "inggris" ? contentLanguage.warning2.en : contentLanguage.warning2.id}
           </p>
 
           {/* Product Category */}
           <div className="form-group">
-            <label htmlFor="productcategory">{languageProps === "inggris" ? contentLanguage.input2.en : contentLanguage.input2.id}</label>
+            <label htmlFor="productCategory">{languageProps === "inggris" ? contentLanguage.input2.en : contentLanguage.input2.id}</label>
             <select
-              name="productcategory"
-              id="productcategory"
+              name="productCategory"
+              id="productCategory"
               onClick={() => setProductCategoryBoolean(true)}
-              onChange={(e) => setProductCategory(e.target.value)}
-              value={productCategory}
-              className={`${productCategoryBoolean && productCategory === "" ? inputFieldStyle.error : inputFieldStyle.base}`}
+              onChange={onChangeData}
+              value={data.productCategory}
+              className={`${productCategoryBoolean && data.productCategory === "" ? inputFieldStyle.error : inputFieldStyle.base}`}
             >
               <option value="">{languageProps === "inggris" ? contentLanguage.input2.option.en : contentLanguage.input2.option.id}</option>
               <option value="A">A</option>
@@ -282,7 +324,7 @@ export default function Main({ languageProps }: MainProps) {
           <p
             className={`${redText}`}
             style={{
-              display: productCategoryBoolean && productCategory === "" ? "block" : "none",
+              display: productCategoryBoolean && data.productCategory === "" ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning3.en : contentLanguage.warning3.id}
@@ -290,7 +332,9 @@ export default function Main({ languageProps }: MainProps) {
 
           {/* Product Freshness */}
           <fieldset
-            className={`field-set form-group ${productFreshnessBoolean && productFreshness === "" ? inputFieldStyle.error : inputFieldStyle.base}`}
+            className={`field-set form-group ${
+              productFreshnessBoolean && data.productFreshness === "" ? inputFieldStyle.error : inputFieldStyle.base
+            }`}
           >
             <legend className="font-semibold">{languageProps === "inggris" ? contentLanguage.input3.en : contentLanguage.input3.id}</legend>
             {languageProps === "inggris"
@@ -298,9 +342,9 @@ export default function Main({ languageProps }: MainProps) {
                   <div key={index}>
                     <input
                       type="radio"
-                      name="options"
+                      name="productFreshness"
                       id={`option${index + 1}`}
-                      onClick={() => setProductFreshness(option)}
+                      onClick={onChangeData}
                       value={option}
                       className="mr-2 h-4 w-4 border-gray-400 bg-gray-100 text-tailwindBlue focus:ring-2 focus:ring-tailwindBlue"
                     />
@@ -312,9 +356,9 @@ export default function Main({ languageProps }: MainProps) {
                   <div key={index}>
                     <input
                       type="radio"
-                      name="options"
+                      name="productFreshness"
                       id={`option${index + 1}`}
-                      onClick={() => setProductFreshness(option)}
+                      onClick={onChangeData}
                       value={option}
                       className="mr-2 h-4 w-4 border-gray-400 bg-gray-100 text-tailwindBlue focus:ring-2 focus:ring-tailwindBlue"
                     />
@@ -326,7 +370,7 @@ export default function Main({ languageProps }: MainProps) {
           <p
             className={`${redText}`}
             style={{
-              display: productFreshnessBoolean && productFreshness === "" ? "block" : "none",
+              display: productFreshnessBoolean && data.productFreshness === "" ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning3.en : contentLanguage.warning3.id}
@@ -334,20 +378,20 @@ export default function Main({ languageProps }: MainProps) {
 
           {/* Image of Product */}
           <div className="form-group">
-            <label htmlFor="image">{languageProps === "inggris" ? contentLanguage.input4.en : contentLanguage.input4.id}</label>
+            <label htmlFor="productImage">{languageProps === "inggris" ? contentLanguage.input4.en : contentLanguage.input4.id}</label>
             <input
               type="file"
               accept="image/*"
-              name="image"
-              id="image"
+              name="productImage"
+              id="productImage"
               onChange={handleImageChange}
-              className={`${productImageBoolean && productImage === null ? inputFieldStyle.error : inputFieldStyle.base}`}
+              className={`${productImageBoolean && data.productImage === null ? inputFieldStyle.error : inputFieldStyle.base}`}
             />
           </div>
           <p
             className={`${redText}`}
             style={{
-              display: productImageBoolean && productImage === null ? "block" : "none",
+              display: productImageBoolean && data.productImage === null ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
@@ -355,22 +399,22 @@ export default function Main({ languageProps }: MainProps) {
 
           {/* Additional Description */}
           <div className="form-group">
-            <label htmlFor="additionaldesc">{languageProps === "inggris" ? contentLanguage.input5.en : contentLanguage.input5.id}</label>
+            <label htmlFor="additionalDescription">{languageProps === "inggris" ? contentLanguage.input5.en : contentLanguage.input5.id}</label>
             <textarea
-              name="additionaldesc"
-              id="additionaldesc"
+              name="additionalDescription"
+              id="additionalDescription"
               cols={50}
               rows={10}
               onClick={() => setAdditionalDescriptionBoolean(true)}
-              onChange={(e) => setAdditionalDescription(e.target.value)}
-              value={additionalDescription}
-              className={`${additionalDescriptionBoolean && additionalDescription === "" ? inputFieldStyle.error : inputFieldStyle.base}`}
+              onChange={onChangeData}
+              value={data.additionalDescription}
+              className={`${additionalDescriptionBoolean && data.additionalDescription === "" ? inputFieldStyle.error : inputFieldStyle.base}`}
             ></textarea>
           </div>
           <p
             className={`${redText}`}
             style={{
-              display: additionalDescriptionBoolean && additionalDescription === "" ? "block" : "none",
+              display: additionalDescriptionBoolean && data.additionalDescription === "" ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
@@ -378,21 +422,21 @@ export default function Main({ languageProps }: MainProps) {
 
           {/* Product Price */}
           <div className="form-group">
-            <label htmlFor="price">{languageProps === "inggris" ? contentLanguage.input6.en : contentLanguage.input6.id}</label>
+            <label htmlFor="randomNumber">{languageProps === "inggris" ? contentLanguage.input6.en : contentLanguage.input6.id}</label>
             <input
               type="text"
-              name="price"
-              id="price"
+              name="randomNumber"
+              id="randomNumber"
               onClick={() => setRandomNumberBoolean(true)}
-              value={randomNumber}
-              className={`${randomNumberBoolean && randomNumber === 0 ? inputFieldStyle.error : inputFieldStyle.base}`}
+              value={data.randomNumber}
+              className={`${randomNumberBoolean && data.randomNumber === 0 ? inputFieldStyle.error : inputFieldStyle.base}`}
               disabled
             />
           </div>
           <p
             className={`${redText}`}
             style={{
-              display: randomNumberBoolean && randomNumber === 0 ? "block" : "none",
+              display: randomNumberBoolean && data.randomNumber === 0 ? "block" : "none",
             }}
           >
             {languageProps === "inggris" ? contentLanguage.warning4.en : contentLanguage.warning4.id}
@@ -405,7 +449,7 @@ export default function Main({ languageProps }: MainProps) {
             </button>
 
             <button type="submit" className={`${buttonStyle.primary}`}>
-              {languageProps === "inggris" ? contentLanguage.button2.en : contentLanguage.button2.id}
+              {languageProps === "inggris" ? (editMode ? "Edit" : contentLanguage.button2.en) : editMode ? "Ubah" : contentLanguage.button2.id}
             </button>
           </div>
         </form>
@@ -445,24 +489,28 @@ export default function Main({ languageProps }: MainProps) {
             </tr>
           </thead>
           <tbody className="text-center">
-            {filteredProductData.map((data, index) => (
+            {filteredProductData.map((item, index) => (
               <tr key={index}>
                 <td className="border-2 px-2 py-2">{`0${index + 1}`}</td>
-                <td className="border-2 px-2 py-2">{data.productName}</td>
-                <td className="border-2 px-2 py-2">{data.productCategory}</td>
-                <td className="border-2 px-2 py-2">{data.productFreshness}</td>
+                <td className="border-2 px-2 py-2">{item.productName}</td>
+                <td className="border-2 px-2 py-2">{item.productCategory}</td>
+                <td className="border-2 px-2 py-2">{item.productFreshness}</td>
                 <td className="border-2 px-2 py-2">
-                  {data.productImage ? <img src={data.productImage} alt="Product Image" width={100} height={0} className="mx-auto h-auto" /> : ""}
+                  {item.productImage ? <img src={item.productImage} alt="Product Image" width={100} height={0} className="mx-auto h-auto" /> : ""}
                 </td>
-                <td className="border-2 px-2 py-2">{data.additionalDescription}</td>
-                <td className="border-2 px-2 py-2">{data.randomNumber}</td>
+                <td className="border-2 px-2 py-2">{item.additionalDescription}</td>
+                <td className="border-2 px-2 py-2">{item.randomNumber}</td>
                 <td className="border-2 px-2 py-2">
                   <div className="flex items-center justify-center gap-2">
                     <button className={`${buttonStyle.secondary}`} onClick={() => navigate(`/productdetail/${index + 1}`)}>
                       {languageProps === "inggris" ? contentLanguage.table.button1.en : contentLanguage.table.button1.id}
                     </button>
 
-                    <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(data.id)}>
+                    <button className={`${buttonStyle.primary}`} onClick={() => handleEdit(item.id)}>
+                      {languageProps === "inggris" ? "Edit" : "Ubah"}
+                    </button>
+
+                    <button className={`${buttonStyle.delete}`} onClick={() => handleDelete(item.id)}>
                       {languageProps === "inggris" ? contentLanguage.table.button2.en : contentLanguage.table.button2.id}
                     </button>
                   </div>
