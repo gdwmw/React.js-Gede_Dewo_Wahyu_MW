@@ -45,4 +45,26 @@ test("Create Product Form", () => {
   const submit = screen.getByTitle("submit");
   expect(submit).toBeDefined();
   fireEvent.click(submit);
+
+  fireEvent.change(productName, { target: { value: "" } });
+  expect(screen.getByText("Product Name is required")).toBeInTheDocument();
+
+  // Test Product Name with invalid characters
+  fireEvent.change(productName, { target: { value: "@Invalid#Name" } });
+  expect(screen.getByText("Product Name contains invalid characters")).toBeInTheDocument();
+
+  fireEvent.change(productName, { target: { value: "A Very Long Product Name That Exceeds 25 Characters" } });
+  expect(screen.getByText("Product Name must not exceed 25 characters")).toBeInTheDocument();
+
+  expect(screen.getByText("Product Name is required")).toBeInTheDocument();
+  expect(screen.getByText("Product Category is required")).toBeInTheDocument();
+
+  fireEvent.change(productName, { target: { value: "Valid Product Name" } });
+
+  fireEvent.click(submit);
+
+  expect(screen.queryByText("Product Name is required")).toBeNull();
+  expect(screen.queryByText("Product Category is required")).toBeNull();
+
+  fireEvent.click(submit);
 });
