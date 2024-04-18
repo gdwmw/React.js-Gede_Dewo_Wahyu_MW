@@ -1,2 +1,3 @@
 # ReactJS-Gede_Dewo_Wahyu_MW
-Kumpulan Tugas Front-End With ReactJS KM5 Alterra Academy
+
+Collection of Front-End Tasks With ReactJS KM 5 Alterra Academy
